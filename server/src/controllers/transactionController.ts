@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Transaction from '../models/Transaction';
 import Vendor from '../models/Vendor';
+import { notifyDataChange } from '../config/socket';
 
 export const createTransaction = async (req: Request, res: Response) => {
   try {
@@ -12,7 +13,7 @@ export const createTransaction = async (req: Request, res: Response) => {
       const amount = transaction.type === 'Credit' ? transaction.amount : -transaction.amount;
       await Vendor.findByIdAndUpdate(transaction.partyId, { $inc: { outstandingBalance: amount } });
     }
-
+    notifyDataChange('Transaction');
     res.status(201).json(transaction);
   } catch (error: any) {
     res.status(400).json({ message: error.message });

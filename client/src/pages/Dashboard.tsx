@@ -9,6 +9,9 @@ import {
 } from '@ant-design/icons';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import api from '../services/api';
+import { io } from 'socket.io-client';
+
+const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
 
 const { Title } = Typography;
 
@@ -26,6 +29,15 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     fetchStats();
+
+    socket.on('dataChange', (data) => {
+      console.log('Real-time update received:', data);
+      fetchStats();
+    });
+
+    return () => {
+      socket.off('dataChange');
+    };
   }, []);
 
   const fetchStats = async () => {

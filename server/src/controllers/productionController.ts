@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Production from '../models/Production';
 import Loom from '../models/Loom';
+import { notifyDataChange } from '../config/socket';
 
 export const addProduction = async (req: Request, res: Response) => {
   try {
@@ -9,7 +10,7 @@ export const addProduction = async (req: Request, res: Response) => {
     
     // Update loom status to Running if it was Idle
     await Loom.findByIdAndUpdate(production.loomId, { status: 'Running' });
-
+    notifyDataChange('Production');
     res.status(201).json(production);
   } catch (error: any) {
     res.status(400).json({ message: error.message });

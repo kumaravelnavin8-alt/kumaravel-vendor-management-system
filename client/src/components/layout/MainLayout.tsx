@@ -50,13 +50,21 @@ const MainLayout: React.FC = () => {
   ];
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ height: '100vh', overflow: 'hidden' }}>
       <Sider 
         trigger={null} 
         collapsible 
         collapsed={collapsed}
         className="glass-card"
-        style={{ margin: '16px 0 16px 16px', borderRadius: '16px' }}
+        style={{ 
+          margin: '16px 0 16px 16px', 
+          borderRadius: '16px',
+          height: 'calc(100vh - 32px)',
+          position: 'sticky',
+          top: 16,
+          left: 16,
+          zIndex: 100
+        }}
         theme="light" 
         breakpoint="lg" 
         onBreakpoint={(broken) => setCollapsed(broken)}
@@ -75,7 +83,7 @@ const MainLayout: React.FC = () => {
           style={{ borderRight: 0 }}
         />
       </Sider>
-      <Layout>
+      <Layout style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Header style={{ 
             padding: 0, 
             background: 'rgba(255, 255, 255, 0.5)', 
@@ -84,7 +92,8 @@ const MainLayout: React.FC = () => {
             alignItems: 'center', 
             justifyContent: 'space-between', 
             paddingRight: 24,
-            borderBottom: '1px solid var(--glass-border)'
+            borderBottom: '1px solid var(--glass-border)',
+            flexShrink: 0
         }}>
           <Button
             type="text"
@@ -100,8 +109,8 @@ const MainLayout: React.FC = () => {
           style={{
             margin: '24px 16px',
             padding: 24,
-            minHeight: 280,
-            overflow: 'auto'
+            overflowY: 'auto',
+            flex: 1
           }}
           className="page-transition"
         >

@@ -20,8 +20,15 @@ import { connectDB } from './config/db';
 
 dotenv.config();
 
+import { createServer } from 'http';
+import { initSocket } from './config/socket';
+
 const app = express();
+const httpServer = createServer(app);
 const PORT = process.env.PORT || 5000;
+
+// Initialize Socket.io
+initSocket(httpServer);
 
 // Middleware
 app.use(express.json());
@@ -51,7 +58,7 @@ app.get('/health', (req, res) => {
 
 // Database Connection & Server Start
 connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  httpServer.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT} with Real-time Sockets enabled`);
   });
 });

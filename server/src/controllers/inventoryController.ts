@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import YarnInventory from '../models/YarnInventory';
 import Notification from '../models/Notification';
+import { notifyDataChange } from '../config/socket';
 
 export const addYarnStock = async (req: Request, res: Response) => {
   try {
@@ -16,7 +17,7 @@ export const addYarnStock = async (req: Request, res: Response) => {
       });
       await notification.save();
     }
-
+    notifyDataChange('Inventory');
     res.status(201).json(yarn);
   } catch (error: any) {
     res.status(400).json({ message: error.message });
@@ -45,7 +46,7 @@ export const updateYarnStock = async (req: Request, res: Response) => {
       });
       await notification.save();
     }
-
+    notifyDataChange('Inventory');
     res.json(yarn);
   } catch (error: any) {
     res.status(400).json({ message: error.message });

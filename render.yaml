@@ -1,32 +1,28 @@
 services:
-  # Backend Web Service
   - type: web
-    name: kumaravel-loomflow-server
-    runtime: node
-    plan: free
-    region: singapore
-    buildCommand: npm install && npm run build
-    startCommand: npm start
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: PORT
-        value: 5000
-      - key: MONGODB_URI
-        sync: false
-      - key: JWT_SECRET
-        sync: false
-    rootDir: server
+      name: kumaravel-loomflow-server
+          runtime: node
+              plan: free
+                  region: singapore
+                      rootDir: server
+                          buildCommand: npm install && npm run build
+                              startCommand: npm start
+                                  envVars:
+                                        - key: NODE_ENV
+                                                        value: production
+                                                            - key: PORT
+                                                              value: 5000
+                                                                    - key: MONGODB_URI
+                                                                            sync: false
+                                                                                  - key: JWT_SECRET
+                                                                                          sync: false
 
-  # Frontend Static Site
-  - type: static_site
-    name: kumaravel-loomflow-client
-        rootDir: client
-    plan: free
-    region: singapore
-    buildCommand: npm install && npm run build
-    publishPath: dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://kumaravel-loomflow-server.onrender.com/api
-    rootDir: client
+                                                                                            - type: static_site
+                                                                                                name: kumaravel-loomflow-client
+                                                                                                    rootDir: client
+                                                                                                        buildCommand: npm install && npm run build
+                                                                                                            publishDir: dist
+                                                                                                                envVars:
+                                                                                                                      - key: VITE_API_URL
+                                                                                                                              value: https://kumaravel-loomflow-server.onrender.com/api
+                                                                                                                              

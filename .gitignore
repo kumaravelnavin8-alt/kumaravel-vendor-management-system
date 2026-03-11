@@ -1,0 +1,23 @@
+# Root level ignores
+node_modules/
+client/node_modules/
+server/node_modules/
+
+client/dist/
+server/dist/
+server/build/
+
+# Secret files
+.env
+client/.env
+server/.env
+*.pem
+
+# OS/System files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+/tmp
+*.bak
+*.swp

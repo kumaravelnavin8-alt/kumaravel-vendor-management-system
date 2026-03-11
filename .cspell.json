@@ -1,0 +1,28 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "Kumaravel",
+    "LoomFlow",
+    "jspdf",
+    "pdfkit",
+    "autotable",
+    "framer",
+    "recharts",
+    "lucide",
+    "tanstack",
+    "vite",
+    "nodemon",
+    "mongodb",
+    "mongoose",
+    "cors",
+    "helmet",
+    "morgan"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    "build",
+    "*.log"
+  ]
+}

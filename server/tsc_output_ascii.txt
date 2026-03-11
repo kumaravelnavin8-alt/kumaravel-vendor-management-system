@@ -1,0 +1,7 @@
+src/controllers/transactionController.ts(11,21): error TS2339: Property 'partyRef' does not exist on type 'Document<unknown, {}, ITransaction, {}, DefaultSchemaOptions> & ITransaction & Required<{ _id: ObjectId; }> & { ...; } & { ...; }'.
+src/models/User.ts(22,44): error TS2349: This expression is not callable.
+  Type 'SaveOptions' has no call signatures.
+src/models/User.ts(26,12): error TS2349: This expression is not callable.
+  Type 'SaveOptions' has no call signatures.
+src/models/User.ts(28,12): error TS2349: This expression is not callable.
+  Type 'SaveOptions' has no call signatures.

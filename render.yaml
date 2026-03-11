@@ -19,9 +19,9 @@ services:
     rootDir: server
 
   # Frontend Static Site
-  - type: static
+  - type: static_site
     name: kumaravel-loomflow-client
-    runtime: static
+        rootDir: client
     plan: free
     region: singapore
     buildCommand: npm install && npm run build

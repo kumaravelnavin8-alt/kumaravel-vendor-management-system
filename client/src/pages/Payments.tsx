@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, Input, InputNumber, Select, message, Card, Space, Tag } from 'antd';
 import dayjs from 'dayjs';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
@@ -38,7 +38,7 @@ const Payments: React.FC = () => {
       const selectedVendor = vendors.find((vend: Vendor) => vend._id === v.partyId);
       const transaction = {
         ...v,
-        partyName: selectedVendor ? (selectedVendor as any).name : 'Direct',
+        partyName: selectedVendor ? selectedVendor.name : 'Direct',
         partyRef: 'Vendor'
       };
       await api.post('/transactions', transaction);
@@ -62,7 +62,7 @@ const Payments: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_: any, record: Transaction) => (
+      render: (_: unknown, record: Transaction) => (
         <Button 
           size="small" 
           icon={<DownloadOutlined />} 
@@ -93,7 +93,7 @@ const Payments: React.FC = () => {
           <Form.Item name="transactionId" label="Transaction ID" rules={[{required: true}]}><Input /></Form.Item>
           <Form.Item name="partyId" label="Vendor / Party" rules={[{required: true}]}>
              <Select>
-               {vendors.map((v: any) => <Select.Option key={v._id} value={v._id}>{v.name}</Select.Option>)}
+               {vendors.map((v: Vendor) => <Select.Option key={v._id} value={v._id}>{v.name}</Select.Option>)}
              </Select>
           </Form.Item>
           <Space>

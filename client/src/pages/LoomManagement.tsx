@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, Input, Select, message, Card, Badge } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import api from '../services/api';
@@ -42,7 +42,7 @@ const LoomManagement: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_: any, record: Loom) => (
+      render: (_: unknown, record: Loom) => (
         <Button size="small" icon={<EditOutlined />} onClick={() => {
           form.setFieldsValue(record);
           setIsModalVisible(true);

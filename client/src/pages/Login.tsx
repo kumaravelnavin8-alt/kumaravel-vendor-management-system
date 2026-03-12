@@ -4,13 +4,18 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
 const { Title, Text } = Typography;
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: LoginFormValues) => {
     setLoading(true);
     try {
       const response = await api.post('/auth/login', values);
@@ -19,8 +24,9 @@ const Login: React.FC = () => {
       message.success('Login successful!');
       navigate('/');
       window.location.reload(); // Quick way to refresh auth state in App.tsx
-    } catch (error: any) {
-      message.error(error.response?.data?.message || 'Login failed');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      message.error(err.response?.data?.message || 'Login failed');
     } finally {
       setLoading(false);
     }

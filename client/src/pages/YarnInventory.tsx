@@ -3,9 +3,35 @@ import { Table, Button, Modal, Form, Input, InputNumber, Select, message, Card, 
 import { PlusOutlined } from '@ant-design/icons';
 import api from '../services/api';
 
+interface VendorOption {
+  _id: string;
+  name: string;
+  vendorType: string;
+}
+
+interface YarnItem {
+  _id: string;
+  yarnType: string;
+  denier: string;
+  color: string;
+  stockQuantity: number;
+  purchasePrice: number;
+  lowStockThreshold: number;
+  vendor?: { _id: string; name: string };
+}
+
+interface YarnFormValues {
+  yarnType: string;
+  denier: string;
+  color: string;
+  stockQuantity: number;
+  purchasePrice: number;
+  vendor: string;
+}
+
 const YarnInventoryUI: React.FC = () => {
-  const [data, setData] = useState([]);
-  const [vendors, setVendors] = useState([]);
+  const [data, setData] = useState<YarnItem[]>([]);
+  const [vendors, setVendors] = useState<VendorOption[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
@@ -21,7 +47,7 @@ const YarnInventoryUI: React.FC = () => {
     try {
       const resp = await api.get('/inventory');
       setData(resp.data);
-    } catch (e) {
+    } catch {
       message.error('Failed to load inventory');
     } finally {
       setLoading(false);
@@ -30,16 +56,16 @@ const YarnInventoryUI: React.FC = () => {
 
   const fetchVendors = async () => {
     const resp = await api.get('/vendors');
-    setVendors(resp.data.filter((v: any) => v.vendorType === 'Yarn Supplier'));
+    setVendors(resp.data.filter((v: VendorOption) => v.vendorType === 'Yarn Supplier'));
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: YarnFormValues) => {
     try {
       await api.post('/inventory', values);
       message.success('Stock updated');
       setIsModalVisible(false);
       fetchData();
-    } catch (e) {
+    } catch {
       message.error('Failed to add stock');
     }
   };
@@ -48,14 +74,14 @@ const YarnInventoryUI: React.FC = () => {
     { title: 'Yarn Type', dataIndex: 'yarnType', key: 'yarnType' },
     { title: 'Denier', dataIndex: 'denier', key: 'denier' },
     { title: 'Color', dataIndex: 'color', key: 'color' },
-    { title: 'Stock (kg)', dataIndex: 'stockQuantity', key: 'stockQuantity', render: (val: number, record: any) => (
+    { title: 'Stock (kg)', dataIndex: 'stockQuantity', key: 'stockQuantity', render: (val: number, record: YarnItem) => (
       <Tag color={val <= record.lowStockThreshold ? 'red' : 'green'}>{val}</Tag>
     )},
     { title: 'Price (₹)', dataIndex: 'purchasePrice', key: 'purchasePrice' },
     { title: 'Vendor', dataIndex: ['vendor', 'name'], key: 'vendor' },
   ];
 
-  const filteredData = data.filter((v: any) => 
+  const filteredData = data.filter((v: YarnItem) => 
     (v.yarnType.toLowerCase().includes(searchTerm.toLowerCase()) || v.color.toLowerCase().includes(searchTerm.toLowerCase())) && 
     (!vendorFilter || (v.vendor && v.vendor._id === vendorFilter))
   );
@@ -77,7 +103,7 @@ const YarnInventoryUI: React.FC = () => {
                     onChange={setVendorFilter} 
                     style={{ width: 170 }}
                 >
-                    {vendors.map((v: any) => <Select.Option key={v._id} value={v._id}>{v.name}</Select.Option>)}
+                    {vendors.map((v: VendorOption) => <Select.Option key={v._id} value={v._id}>{v.name}</Select.Option>)}
                 </Select>
                 <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalVisible(true)}>Add Stock</Button>
             </Space>
@@ -98,7 +124,7 @@ const YarnInventoryUI: React.FC = () => {
           </Space>
           <Form.Item name="vendor" label="Vendor" rules={[{ required: true }]}>
             <Select>
-              {vendors.map((v: any) => <Select.Option key={v._id} value={v._id}>{v.name}</Select.Option>)}
+              {vendors.map((v: VendorOption) => <Select.Option key={v._id} value={v._id}>{v.name}</Select.Option>)}
             </Select>
           </Form.Item>
           <Button type="primary" htmlType="submit" block>Save Stock</Button>

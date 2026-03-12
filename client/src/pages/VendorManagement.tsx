@@ -1,8 +1,17 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, Input, Select, message, Card, Tag, Space, Row, Col } from 'antd';
 import { PlusOutlined, EditOutlined, PhoneOutlined } from '@ant-design/icons';
 import api from '../services/api';
-import type { Loom, Vendor } from '../types';
+import type { Vendor } from '../types';
+
+interface VendorFormValues {
+  name: string;
+  vendorType: string;
+  contactPerson?: string;
+  phone: string;
+  address?: string;
+  gstin?: string;
+}
 
 const VendorManagement: React.FC = () => {
   const [data, setData] = useState<Vendor[]>([]);
@@ -29,7 +38,7 @@ const VendorManagement: React.FC = () => {
     }
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: VendorFormValues) => {
     try {
       if (editingId) {
         await api.put(`/vendors/${editingId}`, values);
@@ -51,7 +60,7 @@ const VendorManagement: React.FC = () => {
     { title: 'Type', dataIndex: 'vendorType', key: 'vendorType', render: (type: string) => (
       <Tag color="blue">{type}</Tag>
     )},
-    { title: 'Contact', dataIndex: 'contactPerson', key: 'contactPerson', render: (val: string, record: any) => (
+    { title: 'Contact', dataIndex: 'contactPerson', key: 'contactPerson', render: (val: string, record: Vendor) => (
       <Space direction="vertical" size={0}>
         <span>{val}</span>
         <span style={{ fontSize: '12px', color: '#888' }}><PhoneOutlined /> {record.phone}</span>
@@ -65,7 +74,7 @@ const VendorManagement: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_: any, record: Vendor) => (
+      render: (_: unknown, record: Vendor) => (
         <Space size="middle">
           <Button size="small" icon={<EditOutlined />} onClick={() => {
             setEditingId(record._id);

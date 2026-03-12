@@ -1,7 +1,15 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, Input, DatePicker, message, Card, Tag, InputNumber, Space, Select } from 'antd';
 import api from '../services/api';
 import dayjs from 'dayjs';
+
+interface OrderFormValues {
+  orderId: string;
+  customerName: string;
+  fabricType: string;
+  quantityMeters: number;
+  deliveryDate: string;
+}
 
 interface Order {
     _id: string;
@@ -35,7 +43,7 @@ const Orders: React.FC = () => {
     } finally { setLoading(false); }
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: OrderFormValues) => {
     try {
       await api.post('/orders', values);
       message.success('Order created');
@@ -55,7 +63,7 @@ const Orders: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_: any, record: Order) => (
+      render: () => (
         // Placeholder for action buttons, e.g., Edit, Delete
         <Space size="middle">
           <a>Edit</a>

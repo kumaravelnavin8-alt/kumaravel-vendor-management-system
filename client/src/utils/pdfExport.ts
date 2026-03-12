@@ -1,12 +1,36 @@
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-// Type definition for autoTable plugin
-interface jsPDFWithAutoTable extends jsPDF {
-  autoTable: (options: any) => jsPDF;
+interface AutoTableOptions {
+  startY?: number;
+  head?: string[][];
+  body?: (string | number | undefined)[][];
+  theme?: string;
+  headStyles?: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
-export const exportPDF = (title: string, columns: string[], data: any[][], fileName: string) => {
+// Type definition for autoTable plugin
+interface jsPDFWithAutoTable extends jsPDF {
+  autoTable: (options: AutoTableOptions) => jsPDF;
+  lastAutoTable: { finalY: number };
+}
+
+interface VendorInfo {
+  name: string;
+  phone: string;
+  gstNumber?: string;
+  outstandingBalance: number;
+}
+
+interface TransactionItem {
+  date: string;
+  description?: string;
+  transactionType?: string;
+  amount: number;
+}
+
+export const exportPDF = (title: string, columns: string[], data: (string | number | undefined)[][], fileName: string) => {
   const doc = new jsPDF() as jsPDFWithAutoTable;
   
   // Header
@@ -31,7 +55,7 @@ export const exportPDF = (title: string, columns: string[], data: any[][], fileN
   doc.save(`${fileName}.pdf`);
 };
 
-export const generateInvoicePDF = (vendor: any, transactions: any[]) => {
+export const generateInvoicePDF = (vendor: VendorInfo, transactions: TransactionItem[]) => {
     const doc = new jsPDF() as jsPDFWithAutoTable;
     
     doc.setFontSize(22);
@@ -54,7 +78,7 @@ export const generateInvoicePDF = (vendor: any, transactions: any[]) => {
         theme: 'striped'
     });
     
-    const finalY = (doc as any).lastAutoTable.finalY + 10;
+    const finalY = (doc as jsPDFWithAutoTable).lastAutoTable.finalY + 10;
     doc.text(`Current Outstanding Balance: INR ${vendor.outstandingBalance.toLocaleString()}`, 14, finalY);
     
     doc.save(`Invoice_${vendor.name}_${Date.now()}.pdf`);

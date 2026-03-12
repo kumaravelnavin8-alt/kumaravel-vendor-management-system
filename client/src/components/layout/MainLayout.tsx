@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Button, theme, Typography } from 'antd';
+import { Layout, Menu, Button, Typography } from 'antd';
 import {
   DashboardOutlined,
   TeamOutlined,
@@ -24,8 +24,7 @@ const MainLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-  } = theme.useToken();
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');

@@ -1,6 +1,20 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Form, Input, InputNumber, Button, Select, Space, Table, message, DatePicker, Typography } from 'antd';
 import api from '../services/api';
+
+interface LoomOption {
+  _id: string;
+  loomNumber: string;
+  status: string;
+}
+
+interface ProductionFormValues {
+  date: string;
+  loomId: string;
+  shift: string;
+  metersProduced: number;
+  fabricType?: string;
+}
 import dayjs from 'dayjs';
 
 const { Title } = Typography;
@@ -16,7 +30,7 @@ interface ProductionEntryItem {
 }
 
 const ProductionEntry: React.FC = () => {
-  const [looms, setLooms] = useState([]);
+  const [looms, setLooms] = useState<LoomOption[]>([]);
   const [data, setData] = useState<ProductionEntryItem[]>([]); // Renamed history to data and added type
   const [loading, setLoading] = useState(true);
   const [form] = Form.useForm();
@@ -47,7 +61,7 @@ const ProductionEntry: React.FC = () => {
     }
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: ProductionFormValues) => {
     try {
       await api.post('/production', values);
       message.success('Production recorded');
@@ -68,7 +82,7 @@ const ProductionEntry: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_: any, record: ProductionEntryItem) => (
+      render: (_: unknown, record: ProductionEntryItem) => (
         <Button size="small" danger onClick={async () => {
           await api.delete(`/production/${record._id}`);
           fetchData(); // Refresh data after deletion
@@ -87,7 +101,7 @@ const ProductionEntry: React.FC = () => {
             </Form.Item>
             <Form.Item name="loomId" label="Loom Number" rules={[{ required: true }]}>
               <Select style={{ width: 150 }}>
-                {looms.map((l: any) => <Select.Option key={l._id} value={l._id}>{l.loomNumber}</Select.Option>)}
+                {looms.map((l: LoomOption) => <Select.Option key={l._id} value={l._id}>{l.loomNumber}</Select.Option>)}
               </Select>
             </Form.Item>
             <Form.Item name="shift" label="Shift" initialValue="Day">

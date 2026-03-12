@@ -17,7 +17,16 @@
     "mongoose",
     "cors",
     "helmet",
-    "morgan"
+    "morgan",
+    "Sider",
+    "gstin",
+    "shnx",
+    "ntvs",
+    "njsproj",
+    "vercel",
+    "pids",
+    "sider",
+    "GSTIN"
   ],
   "ignorePaths": [
     "node_modules",

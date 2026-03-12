@@ -10,7 +10,7 @@ export const connectDB = async () => {
     const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/loomflow');
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error(`MongoDB Connection Error: ${error}. Please ensure MongoDB is running localy or provide a valid MONGODB_URI in .env`);
+    console.error(`MongoDB Connection Error: ${error}. Please ensure MongoDB is running locally or provide a valid MONGODB_URI in .env`);
     // Not exiting to allow the server to start even if DB is unavailable (for testing UI/Health)
   }
 };

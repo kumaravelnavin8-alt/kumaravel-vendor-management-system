@@ -1,22 +1,39 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Tabs, Table, Button, Space, DatePicker, message } from 'antd';
+import type { RangePickerProps } from 'antd/es/date-picker';
 import { FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import api from '../services/api';
 import dayjs from 'dayjs';
 import { exportPDF } from '../utils/pdfExport';
 
+interface ProductionReportItem {
+  _id: string;
+  date: string;
+  loomId?: { loomNumber?: string };
+  metersProduced: number;
+  shift: string;
+}
+
+interface PaymentReportItem {
+  _id: string;
+  date: string;
+  partyName: string;
+  amount: number;
+  type: string;
+}
+
 const { RangePicker } = DatePicker;
 
 const Reports: React.FC = () => {
-  const [prodData, setProdData] = useState([]);
-  const [payData, setPayData] = useState([]);
+  const [prodData, setProdData] = useState<ProductionReportItem[]>([]);
+  const [payData, setPayData] = useState<PaymentReportItem[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchProdReport = async (dates: any) => {
+  const fetchProdReport = async (dates: NonNullable<RangePickerProps['value']>) => {
     setLoading(true);
     try {
       const resp = await api.get('/reports/production', {
-        params: { startDate: dates[0].toISOString(), endDate: dates[1].toISOString() }
+        params: { startDate: dates[0]?.toISOString(), endDate: dates[1]?.toISOString() }
       });
       setProdData(resp.data);
     } catch (error: unknown) { 
@@ -25,11 +42,11 @@ const Reports: React.FC = () => {
     } finally { setLoading(false); }
   };
 
-  const fetchPayReport = async (dates: any) => {
+  const fetchPayReport = async (dates: NonNullable<RangePickerProps['value']>) => {
       setLoading(true);
       try {
         const resp = await api.get('/reports/payments', {
-          params: { startDate: dates[0].toISOString(), endDate: dates[1].toISOString() }
+          params: { startDate: dates[0]?.toISOString(), endDate: dates[1]?.toISOString() }
         });
         setPayData(resp.data);
       } catch (error: unknown) { 
@@ -65,7 +82,7 @@ const Reports: React.FC = () => {
                 onClick={() => exportPDF(
                     'Production Report',
                     ['Date', 'Loom #', 'Meters', 'Shift'],
-                    prodData.map((d: any) => [
+                    prodData.map((d: ProductionReportItem) => [
                         dayjs(d.date).format('DD-MM-YYYY'),
                         d.loomId?.loomNumber || 'N/A',
                         d.metersProduced,
@@ -88,7 +105,7 @@ const Reports: React.FC = () => {
                 onClick={() => exportPDF(
                     'Payment Report',
                     ['Date', 'Party', 'Amount', 'Type'],
-                    payData.map((d: any) => [
+                    payData.map((d: PaymentReportItem) => [
                         dayjs(d.date).format('DD-MM-YYYY'),
                         d.partyName,
                         d.amount.toLocaleString(),

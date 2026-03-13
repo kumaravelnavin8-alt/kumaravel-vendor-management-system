@@ -1,28 +1,20 @@
 services:
   - type: web
-      name: kumaravel-loomflow-server
-          runtime: node
-              plan: free
-                  region: singapore
-                      rootDir: server
-                          buildCommand: npm install && npm run build
-                              startCommand: npm start
-                                  envVars:
-                                        - key: NODE_ENV
-                                                        value: production
-                                                            - key: PORT
-                                                              value: 5000
-                                                                    - key: MONGODB_URI
-                                                                            sync: false
-                                                                                  - key: JWT_SECRET
-                                                                                          sync: false
-
-                                                                                            - type: static_site
-                                                                                                name: kumaravel-loomflow-client
-                                                                                                    rootDir: client
-                                                                                                        buildCommand: npm install && npm run build
-                                                                                                            publishDir: dist
-                                                                                                                envVars:
-                                                                                                                      - key: VITE_API_URL
-                                                                                                                              value: https://kumaravel-loomflow-server.onrender.com/api
-                                                                                                                              
+    name: kumaravel-loomflow-server
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: CORS_ORIGIN
+        value: https://kumaravel-vendor-management-system.vercel.app
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false

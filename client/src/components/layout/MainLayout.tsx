@@ -54,7 +54,7 @@ const MainLayout: React.FC = () => {
         trigger={null} 
         collapsible 
         collapsed={collapsed}
-        width={260}
+        width={280}
         className="glass-card"
         style={{ 
           margin: '16px 0 16px 16px', 
@@ -72,7 +72,7 @@ const MainLayout: React.FC = () => {
         <div style={{ height: 64, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '0 20px', overflow: 'hidden' }}>
           <img src="/logo.png" alt="Logo" style={{ height: 32, width: 32, minWidth: 32, marginRight: collapsed ? 0 : 12 }} />
           {!collapsed && (
-            <Title level={4} style={{ margin: 0, color: '#1890ff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <Title level={4} style={{ margin: 0, color: '#1890ff', whiteSpace: 'nowrap', fontSize: '18px' }}>
               Kumaravel LoomFlow
             </Title>
           )}

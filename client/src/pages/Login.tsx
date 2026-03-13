@@ -36,8 +36,10 @@ const Login: React.FC = () => {
     <Layout style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f0f2f5' }}>
       <Card style={{ width: 400, borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <img src="/logo.png" alt="LoomFlow Logo" style={{ width: 64, height: 64, marginBottom: 16 }} />
-          <Title level={2} style={{ color: '#1890ff', margin: 0 }}>Kumaravel LoomFlow</Title>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+            <img src="/logo.png" alt="LoomFlow Logo" style={{ width: 48, height: 48, marginRight: 16 }} />
+            <Title level={2} style={{ color: '#1890ff', margin: 0 }}>Kumaravel LoomFlow</Title>
+          </div>
           <Text type="secondary" style={{ display: 'block', marginTop: 8 }}>Vendor & Production Management System</Text>
         </div>
         

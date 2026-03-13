@@ -21,9 +21,9 @@ const Login: React.FC = () => {
       const response = await api.post('/auth/login', values);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      sessionStorage.setItem('showLoginToast', 'true');
+      window.dispatchEvent(new Event('authChange'));
+      message.success(`Welcome back, ${response.data.user.name || 'User'}! Login successful.`);
       navigate('/');
-      window.location.reload(); // Quick way to refresh auth state in App.tsx
     } catch (error: unknown) {
       const err = error as { response?: { data?: { message?: string } } };
       message.error(err.response?.data?.message || 'Login failed');

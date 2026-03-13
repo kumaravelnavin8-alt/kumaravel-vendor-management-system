@@ -15,6 +15,11 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Background ping to wake up Render.com sleeping server
+  React.useEffect(() => {
+    api.get('/health').catch(() => {});
+  }, []);
+
   const onFinish = async (values: LoginFormValues) => {
     setLoading(true);
     try {

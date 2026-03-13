@@ -47,3 +47,26 @@ export const login = async (req: Request, res: Response) => {
 export const getMe = async (req: any, res: Response) => {
   res.json(req.user);
 };
+
+export const updateCredentials = async (req: any, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findById(req.user._id);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (email) user.email = email;
+    if (password) user.password = password; // The pre-save hook will hash it
+
+    await user.save();
+    
+    res.json({ message: 'Credentials updated successfully', user: { email: user.email } });
+  } catch (error: any) {
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'Email is already in use' });
+    }
+    res.status(500).json({ message: error.message });
+  }
+};

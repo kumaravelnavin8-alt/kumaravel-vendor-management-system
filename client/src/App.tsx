@@ -22,7 +22,16 @@ import Settings from './pages/Settings';
 import AuditLogs from './pages/AuditLogs';
 
 const App: React.FC = () => {
-  const isAuthenticated = !!localStorage.getItem('token');
+  const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('token'));
+
+  React.useEffect(() => {
+    const handleAuthChange = () => {
+      setIsAuthenticated(!!localStorage.getItem('token'));
+    };
+
+    window.addEventListener('authChange', handleAuthChange);
+    return () => window.removeEventListener('authChange', handleAuthChange);
+  }, []);
 
   return (
     <ConfigProvider

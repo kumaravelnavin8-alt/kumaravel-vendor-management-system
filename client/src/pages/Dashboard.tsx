@@ -28,12 +28,6 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (sessionStorage.getItem('showLoginToast')) {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      message.success(`Welcome back, ${user.name || 'User'}! Login successful.`);
-      sessionStorage.removeItem('showLoginToast');
-    }
-
     fetchStats();
 
     socket.on('dataChange', (data) => {

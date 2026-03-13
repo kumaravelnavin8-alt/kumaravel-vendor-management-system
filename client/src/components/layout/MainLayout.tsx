@@ -69,7 +69,16 @@ const MainLayout: React.FC = () => {
         breakpoint="lg" 
         onBreakpoint={(broken) => setCollapsed(broken)}
       >
-        <div style={{ height: 64, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '0 20px', overflow: 'hidden' }}>
+        <div style={{ 
+          height: 64, 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: collapsed ? 'center' : 'flex-start', 
+          padding: collapsed ? 0 : '0 28px', 
+          overflow: 'hidden',
+          marginTop: 8,
+          marginBottom: 8
+        }}>
           <img src="/logo.png" alt="Logo" style={{ height: 32, width: 32, minWidth: 32, marginRight: collapsed ? 0 : 12 }} />
           {!collapsed && (
             <Title level={4} style={{ margin: 0, color: '#1890ff', whiteSpace: 'nowrap', fontSize: '18px' }}>

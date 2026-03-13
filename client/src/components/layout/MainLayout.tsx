@@ -29,7 +29,7 @@ const MainLayout: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    navigate('/login');
+    window.location.href = '/login';
   };
 
   const user = JSON.parse(localStorage.getItem('user') || '{}');

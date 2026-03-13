@@ -33,14 +33,14 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f0f2f5' }}>
-      <Card style={{ width: 450, borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+    <Layout style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f0f2f5', padding: '16px' }}>
+      <Card style={{ width: '100%', maxWidth: 450, borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8, flexWrap: 'nowrap' }}>
-            <img src="/logo.png" alt="LoomFlow Logo" style={{ width: 44, height: 44, marginRight: 12 }} />
-            <Title level={2} style={{ color: '#1890ff', margin: 0, whiteSpace: 'nowrap' }}>Kumaravel LoomFlow</Title>
+            <img src="/logo.png" alt="LoomFlow Logo" style={{ width: 36, height: 36, marginRight: 8 }} />
+            <Title level={2} style={{ color: '#1890ff', margin: 0, whiteSpace: 'nowrap', fontSize: 'clamp(20px, 6vw, 30px)' }}>Kumaravel LoomFlow</Title>
           </div>
-          <Text type="secondary" style={{ display: 'block', marginTop: 8 }}>Vendor & Production Management System</Text>
+          <Text type="secondary" style={{ display: 'block', marginTop: 8, fontSize: 'clamp(12px, 3.5vw, 14px)' }}>Vendor & Production Management System</Text>
         </div>
         
         <Form

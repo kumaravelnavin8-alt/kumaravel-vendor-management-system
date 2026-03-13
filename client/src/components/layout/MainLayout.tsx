@@ -69,9 +69,12 @@ const MainLayout: React.FC = () => {
         onBreakpoint={(broken) => setCollapsed(broken)}
       >
         <div style={{ height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 16px' }}>
-          <Title level={4} style={{ margin: 0, color: '#1890ff', whiteSpace: 'nowrap' }}>
-            {collapsed ? 'KF' : 'Kumaravel LoomFlow'}
-          </Title>
+          <img src="/logo.png" alt="Logo" style={{ height: 32, marginRight: collapsed ? 0 : 12 }} />
+          {!collapsed && (
+            <Title level={4} style={{ margin: 0, color: '#1890ff', whiteSpace: 'nowrap' }}>
+              Kumaravel LoomFlow
+            </Title>
+          )}
         </div>
         <Menu
           theme="light"
